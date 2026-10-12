@@ -17,7 +17,7 @@ shortcuts, so you don't have to retype the card title to look up comps.
 1. Clone this repo
 2. Open `chrome://extensions` and enable Developer mode
 3. Click "Load unpacked" and select the project folder
-4. Open any eBay `/itm/` listing
+4. Open any eBay `/itm/` listing (eBay item SHOULD be a pokemon card or pokemon related item)
 
 ## Project structure
 - `selectors.js`: eBay DOM selectors (fix here when eBay changes its markup)
