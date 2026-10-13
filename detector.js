@@ -1,6 +1,3 @@
-// Pure logic: takes plain strings, returns a verdict. No DOM access here,
-// so it's easy to test in Node or the console.
-
 const GRADERS = /\b(PSA|BGS|CGC|SGC|TAG|ACE)\s?(\d{1,2}(\.5)?)\b/i;
 const CARD_NUMBER = /\b(\d{1,3})\s?\/\s?(\d{1,3})\b|\b(SV|SWSH|SM|XY|BW|HGSS)\d{1,3}\b|\b[A-Z]{2,4}\d{1,3}\/[A-Z]{2,4}\d{1,3}\b/i;
 const CARD_TERMS = /\b(holo|reverse holo|full art|alt art|illustration rare|special illustration|secret rare|ultra rare|hyper rare|1st edition|first edition|shadowless|vmax|vstar|\bV\b|\bGX\b|\bex\b|prism|promo|rainbow)\b/i;
@@ -8,6 +5,7 @@ const SEALED_TERMS = /\b(booster box|booster bundle|elite trainer|etb|sealed|dis
 const LOT_TERMS = /\b(lot of|bulk|bundle of|\d+\s?cards?\s?lot|mystery|random|you pick|choose your)\b/i;
 const FAKE_TERMS = /\b(proxy|custom|replica|orica|fan.?made|reprint|fake|metal card)\b/i;
 
+//should react when pokemon card is detected
 function detectPokemonCard({ title, breadcrumbs = "", specifics = "" }) {
   let score = 0;
   const reasons = [];
@@ -41,9 +39,8 @@ function detectPokemonCard({ title, breadcrumbs = "", specifics = "" }) {
     cardNumber: (title.match(CARD_NUMBER) || [null])[0]
   };
 }
-
-// Turns a messy seller title into a clean search query.
-// Strips hype words, emojis and punctuation but keeps name, number and grade.
+// turns the seller title into a search query, shouldn't matter how messy the title is.
+// Strips hype words like condition, keeps name, number and grade.
 const NOISE = /\b(l@@k|look|wow|nm|nm\/mt|near mint|mint|free shipping|fast shipping|fast ship|must see|hot|rare!*|no reserve|nr|authentic|official|tcg|ccg|card|cards|mavin|bgs\/psa|pop \d+|low pop|investment|great|beautiful|gem)\b/gi;
 
 function buildSearchQuery(title) {
@@ -57,6 +54,7 @@ function buildSearchQuery(title) {
   return q;
 }
 
+//makes the links with the search querys
 function buildLinks(title) {
   const q = buildSearchQuery(title);
   const enc = encodeURIComponent;
@@ -64,7 +62,7 @@ function buildLinks(title) {
     query: q,
     google: `https://www.google.com/search?q=${enc(q)}`,
     googleSold: `https://www.google.com/search?q=${enc(q + " sold price")}`,
-    googleImages: `https://www.google.com/search?tbm=isch&q=${enc(q)}`,
-    ebaySold: `https://www.ebay.com/sch/i.html?_nkw=${enc(q)}&LH_Sold=1&LH_Complete=1&_sop=13`
+    googleImages: `https://www.google.com/search?tbm=isch&q=${enc(q)}`, //google images
+    ebaySold: `https://www.ebay.com/sch/i.html?_nkw=${enc(q)}&LH_Sold=1&LH_Complete=1&_sop=13` //ebay last sold
   };
 }
