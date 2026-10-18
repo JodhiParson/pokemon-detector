@@ -52,14 +52,16 @@
     el.innerHTML = `
       <div style="font-weight:600;margin-bottom:4px">${label}</div>
       <div style="opacity:.8">${listing.listingType.replace("_", " ")} · ${listing.price || "price n/a"}</div>
+      ${r.productType ? `<div style="opacity:.8">Type: ${r.productType}${r.factorySealed ? " · sealed" : ""}</div>` : ""}
+      ${r.edition ? `<div style="opacity:.8">Edition/lang: ${r.edition}</div>` : ""}
       ${r.graded ? `<div style="opacity:.8">Graded: ${r.grader} ${r.grade}</div>` : r.isSingleCard ? `<div style="opacity:.8">Raw / ungraded</div>` : ""}
       ${r.cardNumber ? `<div style="opacity:.8">Card #: ${r.cardNumber}</div>` : ""}
-      ${r.isSingleCard ? linkButtons(listing.title) : ""}
+      ${(r.isSingleCard || r.isSealed) ? linkButtons(listing.title, r) : ""}
       <div style="opacity:.5;margin-top:6px;font-size:11px">confidence score: ${r.score}</div>`;
     document.body.appendChild(el);
   }
 
-  function linkButtons(title) {
+  function linkButtons(title, r) {
     const l = buildLinks(title);
     const btn = (href, text) =>
       `<a href="${href}" target="_blank" rel="noopener noreferrer"
@@ -71,6 +73,7 @@
         ${btn(l.google, "Google")}
         ${btn(l.googleSold, "Google sold")}
         ${btn(l.ebaySold, "eBay sold")}
+        ${btn(l.tcgplayer, "TCGplayer")}
         ${btn(l.googleImages, "Images")}
       </div>`;
   }
