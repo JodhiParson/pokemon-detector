@@ -80,7 +80,7 @@ function detectPokemonCard({ title, breadcrumbs = "", specifics = "", knownPokem
   };
 }
 
-// Turns a messy seller title into a clean search query.
+// Turns messy seller title into a clean search query.
 // Strips hype words, emojis and punctuation but keeps name, number, grade
 // and (for sealed product) the product type.
 const NOISE = /\b(l@@k|look|wow|nm|nm\/mt|near mint|mint|free shipping|fast shipping|fast ship|must see|hot|rare!*|no reserve|nr|authentic|official|tcg|ccg|card|cards|mavin|bgs\/psa|pop \d+|low pop|investment|great|beautiful|gem|brand new|in stock|ships? (today|fast)|usa|us seller)\b/gi;

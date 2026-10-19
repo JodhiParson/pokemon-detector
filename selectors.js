@@ -30,12 +30,13 @@ const TCG = {
   breadcrumbs: ["nav[aria-label='breadcrumb']", "[class*='breadcrumb']"]
 };
 
-// Each adapter: does this URL look like a product page, and how do we read it?
+// adapters
 const SITES = {
   ebay: {
     id: "ebay",
     matchesHost: () => /(^|\.)ebay\./.test(location.hostname),
     isListingPage: () => /\/itm\//.test(location.pathname),
+    //scrape function, to find all parts of the url
     scrape() {
       const isAuction = exists(EBAY.bidButton) || exists(EBAY.bidCount);
       const hasBuyNow = exists(EBAY.buyNow);
@@ -56,10 +57,11 @@ const SITES = {
   tcgplayer: {
     id: "tcgplayer",
     matchesHost: () => /(^|\.)tcgplayer\.com$/.test(location.hostname),
-    // TCGplayer is a SPA: the URL changes without a page load, so we check the path each time.
+    // TCGplayer is a SPA: the URL changes without a page load, have to check the path every time
     isListingPage: () => /^\/product\/\d+\//.test(location.pathname),
     scrape() {
       // URL looks like /product/283389/pokemon-sv-scarlet-and-violet-151-charizard-ex-199-165
+      //scrape tcgplayer url for certain words
       const m = location.pathname.match(/^\/product\/(\d+)\/([^/?#]+)/) || [];
       const slug = m[2] || "";
       const slugTitle = slug
