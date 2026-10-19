@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Pokemon Card Listing Detector",
-  "version": "0.1.0",
-  "description": "Detects when an eBay listing is a Pokemon card.",
+  "version": "0.3.0",
+  "description": "Detects Pokemon cards and sealed product on eBay and TCGplayer, with one-click comp searches.",
   "content_scripts": [
     {
-      "matches": ["*://*.ebay.com/itm/*"],
+      "matches": ["*://*.ebay.com/itm/*", "*://*.tcgplayer.com/*"],
       "js": ["selectors.js", "detector.js", "content.js"],
       "run_at": "document_idle"
     }

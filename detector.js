@@ -33,7 +33,7 @@ function detectProductType(title) {
   return null;
 }
 
-function detectPokemonCard({ title, breadcrumbs = "", specifics = "" }) {
+function detectPokemonCard({ title, breadcrumbs = "", specifics = "", knownPokemon = false }) {
   let score = 0;
   const reasons = [];
   const add = (pts, why) => { score += pts; reasons.push(`+${pts} ${why}`); };
@@ -42,6 +42,7 @@ function detectPokemonCard({ title, breadcrumbs = "", specifics = "" }) {
   const productType = detectProductType(title);
   const looksSealed = !graded && (productType !== null || /\bfactory sealed\b/i.test(title));
 
+  if (knownPokemon) add(4, "site confirms Pokemon (URL / category)");
   if (/pok[eé]mon/i.test(title)) add(3, "title mentions Pokemon");
   if (/pok[eé]mon/i.test(breadcrumbs)) add(2, "category mentions Pokemon");
   if (/(CCG Individual Cards|Collectible Card Games|Sealed Boxes|Sealed Packs)/i.test(breadcrumbs)) add(1, "TCG category");
@@ -89,6 +90,7 @@ function buildSearchQuery(title) {
     .replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}]/gu, " ") // emojis
     .replace(NOISE, " ")
     .replace(/[!*~|•–—]+/g, " ")
+    .replace(/\s-\s/g, " ")
     .replace(/\s+/g, " ")
     .trim();
   if (!/pok[eé]mon/i.test(q)) q = "pokemon " + q;
